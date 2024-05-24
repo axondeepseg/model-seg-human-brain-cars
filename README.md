@@ -6,6 +6,7 @@ Axon and myelin segmentation model in histology images to quantify myelination i
 <details>
   <summary>Click here</summary>
 
+  TODO: add BIDS-to-nnunet data preparation script when we get more data
   TODO: instructions
   
 </details>
