@@ -58,7 +58,10 @@ if __name__ == "__main__":
             axon = Path(args.dir) / f"{fname}_seg-axon.png"
             myelin = Path(args.dir) / f"{fname}_seg-myelin.png"
             output = Path(args.dir) / f"{fname}_nnunet-label.png"
-            convert_raw_masks(str(axon), str(myelin), str(output))
+            try:
+                convert_raw_masks(str(axon), str(myelin), str(output))
+            except Exception as e:
+                print(f"Error processing {fname}: {e}")
 
     else:
         convert_raw_masks(str(args.axon), str(args.myelin), str(args.output))
