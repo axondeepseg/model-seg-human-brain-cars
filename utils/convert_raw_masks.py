@@ -40,9 +40,25 @@ def convert_raw_masks(axon_path, myelin_path, output_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--axon", type=Path, help="Path to the axon mask")
-    parser.add_argument("--myelin", type=Path, help="Path to the myelin mask")
-    parser.add_argument("--output", type=Path, help="Path to the output mask")
+    parser.add_argument("--dir",    default=None,   type=Path, help="Path to a directory containing masks.")
+    parser.add_argument("--axon",   default=None,   type=Path, help="Path to the axon mask")
+    parser.add_argument("--myelin", default=None,   type=Path, help="Path to the myelin mask")
+    parser.add_argument("--output", default=None,   type=Path, help="Path to the output mask")
     args = parser.parse_args()
 
-    convert_raw_masks(str(args.axon), str(args.myelin), str(args.output))
+    if args.dir and (args.axon or args.myelin or args.output):
+        raise ValueError("Please use either --dir or [--axon, --myelin and --output], not both.")
+
+    # batch mode
+    if args.dir:
+        # get all pairs of axon/myelin masks
+        all_masks = list(Path(args.dir).glob("*_seg-*.png"))
+        valid_fnames = set([m.name.split("_seg-")[0] for m in all_masks])
+        for fname in valid_fnames:
+            axon = Path(args.dir) / f"{fname}_seg-axon.png"
+            myelin = Path(args.dir) / f"{fname}_seg-myelin.png"
+            output = Path(args.dir) / f"{fname}_nnunet-label.png"
+            convert_raw_masks(str(axon), str(myelin), str(output))
+
+    else:
+        convert_raw_masks(str(args.axon), str(args.myelin), str(args.output))
