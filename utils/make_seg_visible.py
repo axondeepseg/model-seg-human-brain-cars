@@ -41,15 +41,9 @@ def make_segmentations_visible(input_dir: str, output_dir: str) -> None:
             cv2.imwrite(os.path.join(output_dir, filename), img_mapped_array)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Map segmentation values and save to output directory."
-    )
-    parser.add_argument(
-        "input_dir", type=str, help="Directory containing segmentation images."
-    )
-    parser.add_argument(
-        "output_dir", type=str, help="Directory to save mapped segmentation images."
-    )
+    parser = argparse.ArgumentParser(description="Map segmentation values and save to output directory.")
+    parser.add_argument("input_dir", type=str, help="Directory containing segmentation images.")
+    parser.add_argument("output_dir", type=str, help="Directory to save mapped segmentation images.")
     args = parser.parse_args()
 
     make_segmentations_visible(args.input_dir, args.output_dir)
