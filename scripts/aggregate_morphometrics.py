@@ -26,7 +26,7 @@ def main(input_dir: Path):
     aggregated_df = pd.DataFrame()
     for sub in subjects:
         target_dir = input_dir / sub
-        files = [x for x in target_dir.glob("*.xlsx")]
+        files = [x for x in target_dir.glob("*axon_morphometrics.xlsx")]
         for f in files:
             df = pd.read_excel(f)
             df["subject"] = sub
